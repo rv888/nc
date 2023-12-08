@@ -180,13 +180,11 @@
             //console.log("nj",nostrJson);
             if (! emessages.includes(event.id)) {
 
-                console.log(event.tags.length);
+                if (event.tags.length < 1){
+                    emessages.push(event.id);
+                    create_div(event);
+                }
 
-                //event.tags.length > 0
-
-
-                emessages.push(event.id);
-                create_div(event);
             }
         })
         sub.on('eose', () => {
