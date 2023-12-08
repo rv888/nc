@@ -159,7 +159,7 @@
     let relays = ['wss://relay.damus.io', 'wss://relay.snort.social\n',"wss://relayable.org",
         "wss://relay.primal.net"];
     const pool = new window.NostrTools.SimplePool();
-    let winnerTimer, emessages = [];
+    let cTimer, emessages = [];
     function get_messages(pk){
         //var pubKey = window.NostrTools.nip19.npubEncode(pk);
 
@@ -181,8 +181,8 @@
 
                     console.log("init", event);
 
-
                     emessages.push(event.id);
+
                     create_div(event);
                 }
 
@@ -201,18 +201,49 @@
         row.classList.add('feathered-box');
         row.classList.add('col-12');
         row.classList.add('col-sm-5');
+        row.dataset.created = event.created_at;
 
         row.innerHTML = event.content;
         table.appendChild(row);
 
-        //clearTimeout(winnerTimer);
-        //runTimer();
+        clearTimeout(cTimer);
+        runTimer();
     }
 
     function runTimer(){
-        winnerTimer = setTimeout(() => {
+        cTimer = setTimeout(() => {
             sortTable();
         }, 5000);
+    }
+
+    function sortTable(){
+        // Get all the div elements you want to sort
+        var divElements = document.querySelectorAll('div[data-created]');
+
+        // Convert the data-created attribute values to timestamps (assuming they are in ISO8601 format)
+                var divArray = Array.from(divElements);
+                divArray.forEach(function(div) {
+                    var timestamp = Date.parse(div.getAttribute('data-created'));
+                    div.timestamp = timestamp; // Store the timestamp as a property of the div
+                });
+
+        // Sort the div elements based on the timestamp
+                divArray.sort(function(a, b) {
+                    return a.timestamp - b.timestamp;
+                });
+
+        // Create a container to hold the sorted divs
+                var sortedContainer = document.createElement('div');
+
+        // Append the sorted divs to the container
+                divArray.forEach(function(div) {
+                    sortedContainer.appendChild(div);
+                });
+
+        // Append the sorted container back to the parent container or body
+                var parentContainer = document.getElementById('messages'); // Change 'parentContainer' to your actual container's ID or reference
+                parentContainer.appendChild(sortedContainer);
+
     }
 
 
