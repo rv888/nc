@@ -138,7 +138,7 @@
     const pool = new window.NostrTools.SimplePool();
     let winnerTimer, emessages = [];
     function get_messages(pk){
-        var pubKey = window.NostrTools.nip19.npubEncode(pk);
+        //var pubKey = window.NostrTools.nip19.npubEncode(pk);
 
         let sub = pool.sub(
             [...relays],
@@ -186,22 +186,8 @@
         }, 5000);
     }
 
-    function loadWinners(filename) {
-        var url = "https://vsm.sfo3.cdn.digitaloceanspaces.com/wm/" + filename;
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                Object.entries(data).forEach(([key, value]) => {
-                    console.log(`Key: ${key}, Value: ${value}`);
-                    get_user_details(key, value);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching JSON:', error);
-            });
-    }
 
-    get_messages("npub1gjd56m6gw0kr4hdpx5z74fvv4tsmzpgcdwj8s47qx6g2u6wt0vjsu6a0tp");
+    get_messages("449b4d6f4873ec3adda13505eaa58caae1b105186ba47857c03690ae69cb7b25");
 
     //runTimer();
 
