@@ -102,8 +102,6 @@
             color: #dc1fdc;
         }
         .feathered-box {
-            width: 200px;
-            height: 200px;
             background: linear-gradient(135deg, transparent 10px, #000 0),
             linear-gradient(225deg, transparent 10px, #000 0),
             linear-gradient(315deg, transparent 10px, #000 0),
@@ -129,7 +127,10 @@
 </div>
 
 <section class="bg-dark py-4">
-    <div class="container mt-4" id="messages">
+    <div class="container mt-4">
+        <div class="row" id="messages">
+
+        </div>
 
     </div>
 </section>
@@ -184,7 +185,8 @@
         let table = document.getElementById('messages'),
             row = document.createElement('div');
         row.classList.add('feathered-box');
-        row.classList.add('mt-4');
+        row.classList.add('col-12');
+        row.classList.add('col-sm-6');
 
         row.innerHTML = event.content;
         table.appendChild(row);
