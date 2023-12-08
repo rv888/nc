@@ -213,10 +213,11 @@
     function runTimer(){
         cTimer = setTimeout(() => {
             sortTable();
-        }, 5000);
+        }, 3000);
     }
 
     function sortTable(){
+        console.log("sortTable");
         // Get all the div elements you want to sort
         var divElements = document.querySelectorAll('div[data-created]');
 
@@ -249,7 +250,7 @@
 
     get_messages("449b4d6f4873ec3adda13505eaa58caae1b105186ba47857c03690ae69cb7b25");
 
-    //runTimer();
+    runTimer();
 
 
 </script>
