@@ -145,19 +145,20 @@
             [
                 {
                     kinds: [1],
-                    authors: [pk],
+                    pubkey: pk,
                     since: Math.round(Date.now() / 1000) - (60 * 60 * 24 * 7),
 
                 },
             ],
         )
         sub.on('event', event => {
-            console.log(event);
+
+            console.log("init", event);
             var nostrJson = JSON.parse(event.content);
-            console.log(nostrJson);
+            console.log("nj",nostrJson);
             if (! emessages.includes(event.id)) {
-                emessages.push(event.pubkey);
-                create_div(nostrJson, pubKey);
+                emessages.push(event.id);
+                create_div(nostrJson);
             }
         })
         sub.on('eose', () => {
@@ -166,14 +167,14 @@
 
     }
 
-    function create_div(person,pubKey){
+    function create_div(event){
 
         let table = document.getElementById('messages'),
             row = document.createElement('div');
         row.classList.add('feathered-box');
         row.classList.add('mt-4');
 
-        row.innerHTML = person.name;
+        row.innerHTML = event.content;
         table.appendChild(row);
 
         clearTimeout(winnerTimer);
