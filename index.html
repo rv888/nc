@@ -1,10 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="lightning" content="lnurlp:gamemasters@getalby.com"/>
+    <link rel="icon" href="https://gamemasters.social/images/icon.png" sizes="192x192" />
+    <meta name="description" content="Christmas is a time of giving back to the community">
+    <meta property="og:description" content="Christmas is a time of giving back to the community">
+    <meta name="keywords" content="nostr, christmas, bitcoin">
+    <meta property="og:image" content="https://i.nostr.build/onWk.jpg">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.nostr.christmas">
+    <link rel="canonical" href="https://www.nostr.christmas">
+    <meta property="og:site_name" content="Nostr Christmas: A Time of Giving">
+
+    <title>Nostr Christmas: A Time of Giving</title>
+    <meta property="og:title" content="Game Masters: Nostr Games">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: black;
+        }
+        header,
+        section,
+        footer {
+            color: white;
+        }
+
+        .btn-purple {
+            background-color: purple;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            margin: 0.5rem;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 75vh;
+            object-fit: cover;
+        }
+
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+
+        .hero-text h1 {
+            font-size: 400%;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        h2 {
+            font-size: 175%;
+        }
+
+        footer {
+            background-color: #000;
+        }
+        .image-column {
+            width: 30%;
+            max-width: 30%;
+        }
+        .image-column img {
+            width: 100%;
+            height: auto;
+        }
+        .table{
+            color: #fff;
+        }
+        .winner_count {
+            font-size: 1.2rem;
+        }
+        .active-link {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .durations {
+            font-size: 80%;
+            font-weight: normal;
+            float: right;
+        }
+        a {
+            color: #dcdcdc;
+        }
+        a:hover{
+            color: #dc1fdc;
+        }
+    </style>
 </head>
+
 <body>
-Test
+
+<!-- Hero image with overlaid text -->
+<div class="hero">
+    <img src="https://i.nostr.build/dlyY.png" alt="Hero" class="img-fluid">
+    <div class="hero-text">
+        <h1 class="display-4 font-weight-bold">Nostr Christmas</h1>
+        <p>Giving back to the Nostr communitys</p>
+    </div>
+</div>
+
+<section class="bg-dark py-4">
+    <div class="container mt-4" id="messages">
+
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center py-2">
+    &nbsp;
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
+
+<script>
+
+    let relays = ['wss://relay.damus.io', 'wss://relay.snort.social\n',"wss://relayable.org",
+        "wss://relay.primal.net"];
+    const pool = new window.NostrTools.SimplePool();
+    let winnerTimer, emessages = [];
+    function get_messages(pk){
+        var pubKey = window.NostrTools.nip19.npubEncode(pk);
+
+        let sub = pool.sub(
+            [...relays],
+            [
+                {
+                    kinds: [1],
+                    authors: [pk],
+                    since: Math.round(Date.now() / 1000) - (60 * 60 * 24 * 7),
+
+                },
+            ],
+        )
+        sub.on('event', event => {
+            console.log(event);
+            var nostrJson = JSON.parse(event.content);
+            console.log(nostrJson);
+            if (! emessages.includes(event.id)) {
+                emessages.push(event.pubkey);
+                create_div(nostrJson, pubKey);
+            }
+        })
+        sub.on('eose', () => {
+            sub.unsub()
+        })
+
+    }
+
+    function create_div(person,pubKey){
+
+        let table = document.getElementById('messages'),
+            row = document.createElement('div');
+        row.classList.add('feathered-box');
+        row.classList.add('mt-4');
+
+        row.innerHTML = person.name;
+        table.appendChild(row);
+
+        clearTimeout(winnerTimer);
+        runTimer();
+    }
+
+    function runTimer(){
+        winnerTimer = setTimeout(() => {
+            sortTable();
+        }, 5000);
+    }
+
+    function loadWinners(filename) {
+        var url = "https://vsm.sfo3.cdn.digitaloceanspaces.com/wm/" + filename;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                Object.entries(data).forEach(([key, value]) => {
+                    console.log(`Key: ${key}, Value: ${value}`);
+                    get_user_details(key, value);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching JSON:', error);
+            });
+    }
+
+    get_messages("npub1gjd56m6gw0kr4hdpx5z74fvv4tsmzpgcdwj8s47qx6g2u6wt0vjsu6a0tp");
+
+    //runTimer();
+
+
+</script>
+
+
 </body>
+
 </html>
