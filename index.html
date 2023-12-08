@@ -175,12 +175,13 @@
         )
         sub.on('event', event => {
 
-            console.log("init", event);
-            //var nostrJson = JSON.parse(event.content);
-            //console.log("nj",nostrJson);
             if (! emessages.includes(event.id)) {
 
                 if (event.tags.length < 1){
+
+                    console.log("init", event);
+
+
                     emessages.push(event.id);
                     create_div(event);
                 }
