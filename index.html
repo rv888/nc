@@ -113,7 +113,13 @@
             color: #fff;
         }
         .col-sm-4 {
-            margin: 10px;
+            margin: 6px;
+        }
+        .col-sm-5 {
+            margin: 6px;
+        }
+        .col-12 {
+            margin: 6px;
         }
     </style>
 </head>
@@ -189,7 +195,7 @@
             row = document.createElement('div');
         row.classList.add('feathered-box');
         row.classList.add('col-12');
-        row.classList.add('col-sm-4');
+        row.classList.add('col-sm-5');
 
         row.innerHTML = event.content;
         table.appendChild(row);
