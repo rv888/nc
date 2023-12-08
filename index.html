@@ -168,7 +168,7 @@
             [
                 {
                     kinds: [1],
-                    authors: pk,
+                    authors: [pk],
                     since: Math.round(Date.now() / 1000) - (60 * 60 * 24 * 3),
                 },
             ],
@@ -179,6 +179,12 @@
             //var nostrJson = JSON.parse(event.content);
             //console.log("nj",nostrJson);
             if (! emessages.includes(event.id)) {
+
+                console.log(event.tags.length);
+
+                //event.tags.length > 0
+
+
                 emessages.push(event.id);
                 create_div(event);
             }
