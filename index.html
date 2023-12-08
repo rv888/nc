@@ -101,6 +101,19 @@
         a:hover{
             color: #dc1fdc;
         }
+        .feathered-box {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, transparent 10px, #000 0),
+            linear-gradient(225deg, transparent 10px, #000 0),
+            linear-gradient(315deg, transparent 10px, #000 0),
+            linear-gradient(45deg, transparent 10px, #000 0);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+            background-position: top left, top right, bottom right, bottom left;
+            border-radius: 25px; /* Adjust the value as needed */
+            padding: 20px;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -176,8 +189,8 @@
         row.innerHTML = event.content;
         table.appendChild(row);
 
-        clearTimeout(winnerTimer);
-        runTimer();
+        //clearTimeout(winnerTimer);
+        //runTimer();
     }
 
     function runTimer(){
