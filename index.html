@@ -227,20 +227,21 @@
     }
 
     function sortTable() {
-        console.log("sortTable1");
+        console.log("sortTable2");
         const parentContainer = document.getElementById('messages');
         const divElements = document.querySelectorAll('div[data-created]');
 
-        // Convert NodeList to Array and sort by timestamp
+        // Convert NodeList to Array and sort by timestamp (oldest to newest)
         const sortedDivs = Array.from(divElements).sort((a, b) => {
             const timestampA = Date.parse(a.getAttribute('data-created'));
             const timestampB = Date.parse(b.getAttribute('data-created'));
-            return timestampA - timestampB;
+            return timestampB - timestampA; // Change here for reverse order
         });
 
         // Append sorted divs to the parent container
         sortedDivs.forEach(div => parentContainer.appendChild(div));
     }
+
 
 
     get_messages("97bb0f7908b21ab45516150d70c35f43954d13256b237b74a52346a4b5083123");
