@@ -227,24 +227,19 @@
     }
 
     function sortTable() {
-        console.log("sortTable4");
+        console.log("sortTable5");
         const parentContainer = document.getElementById('messages');
         const divElements = document.querySelectorAll('div[data-created]');
 
+        // Convert NodeList to Array and sort by Unix timestamp (oldest to newest)
         const sortedDivs = Array.from(divElements).sort((a, b) => {
-            const timestampA = Date.parse(a.getAttribute('data-created'));
-            const timestampB = Date.parse(b.getAttribute('data-created'));
-            console.log(timestampA);
-            console.log(timestampB);
-            console.log(timestampA - timestampB);
-            console.log(" ")
-            return timestampA - timestampB; // Change here for reverse order
+            const timestampA = parseInt(a.getAttribute('data-created'), 10);
+            const timestampB = parseInt(b.getAttribute('data-created'), 10);
+            return timestampA - timestampB; // Compare the Unix timestamps
         });
 
-        console.log(sortedDivs);
-
+        // Clear existing content in the parent container
         while (parentContainer.firstChild) {
-            console.log("removed");
             parentContainer.removeChild(parentContainer.firstChild);
         }
 
