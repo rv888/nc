@@ -227,7 +227,7 @@
     }
 
     function sortTable() {
-        console.log("sortTable2");
+        console.log("sortTable3");
         const parentContainer = document.getElementById('messages');
         const divElements = document.querySelectorAll('div[data-created]');
 
@@ -237,6 +237,12 @@
             const timestampB = Date.parse(b.getAttribute('data-created'));
             return timestampB - timestampA; // Change here for reverse order
         });
+
+        console.log(sortedDivs);
+
+        while (parentContainer.firstChild) {
+            parentContainer.removeChild(parentContainer.firstChild);
+        }
 
         // Append sorted divs to the parent container
         sortedDivs.forEach(div => parentContainer.appendChild(div));
