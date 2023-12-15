@@ -199,7 +199,7 @@
             }
         })
         sub.on('eose', () => {
-            console.log("DONE");
+            sortTable();
             sub.unsub()
         })
 
@@ -218,7 +218,7 @@
         table.appendChild(row);
 
         clearTimeout(cTimer);
-        runTimer();
+        //runTimer();
     }
 
     function runTimer(){
