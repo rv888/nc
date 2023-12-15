@@ -235,7 +235,7 @@
         const sortedDivs = Array.from(divElements).sort((a, b) => {
             const timestampA = Date.parse(a.getAttribute('data-created'));
             const timestampB = Date.parse(b.getAttribute('data-created'));
-            return timestampB - timestampA; // Change here for reverse order
+            return timestampA - timestampB; // Change here for reverse order
         });
 
         console.log(sortedDivs);
