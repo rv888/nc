@@ -226,24 +226,20 @@
         }, 3000);
     }
 
-    function sortTable(){
+    function sortTable() {
         console.log("sortTable");
-        var divElements = document.querySelectorAll('div[data-created]'),
-            parentContainer = document.getElementById('messages');
+        const parentContainer = document.getElementById('messages');
+        const divElements = document.querySelectorAll('div[data-created]');
 
-            var divArray = Array.from(divElements);
-            divArray.forEach(function(div) {
-                var timestamp = Date.parse(div.getAttribute('data-created'));
-                div.timestamp = timestamp; // Store the timestamp as a property of the div
-            });
+        // Convert NodeList to Array and sort by timestamp
+        const sortedDivs = Array.from(divElements).sort((a, b) => {
+            const timestampA = Date.parse(a.getAttribute('data-created'));
+            const timestampB = Date.parse(b.getAttribute('data-created'));
+            return timestampA - timestampB;
+        });
 
-            divArray.sort(function(a, b) {
-                return a.timestamp - b.timestamp;
-            });
-
-            divArray.forEach(function(div) {
-                parentContainer.appendChild(div);
-            });
+        // Append sorted divs to the parent container
+        sortedDivs.forEach(div => parentContainer.appendChild(div));
     }
 
 
