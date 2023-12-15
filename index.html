@@ -231,16 +231,20 @@
         const parentContainer = document.getElementById('messages');
         const divElements = document.querySelectorAll('div[data-created]');
 
-        // Convert NodeList to Array and sort by timestamp (oldest to newest)
         const sortedDivs = Array.from(divElements).sort((a, b) => {
             const timestampA = Date.parse(a.getAttribute('data-created'));
             const timestampB = Date.parse(b.getAttribute('data-created'));
+            console.log(timestampA);
+            console.log(timestampB);
+            console.log(timestampA - timestampB);
+            console.log(" ")
             return timestampA - timestampB; // Change here for reverse order
         });
 
         console.log(sortedDivs);
 
         while (parentContainer.firstChild) {
+            console.log("removed");
             parentContainer.removeChild(parentContainer.firstChild);
         }
 
