@@ -171,39 +171,41 @@
         "wss://nostr.mutinywallet.com",
         "wss://relay.primal.net"];
     const pool = new window.NostrTools.SimplePool();
+
+    console.log(pool);
     let cTimer, emessages = [];
     function get_messages(pk){
         //var pubKey = window.NostrTools.nip19.npubEncode(pk);
 
-        let sub = pool.sub(
+        let sub = pool.subscribeMany(
             [...relays],
             [
                 {
                     kinds: [1],
                     authors: [pk],
-                    //since: Math.round(Date.now() / 1000) - (60 * 60 * 24 * 3),
                 },
             ],
-        )
-        sub.on('event', event => {
+            {
+                onevent(event) {
+                    if (! emessages.includes(event.id)) {
 
-            if (! emessages.includes(event.id)) {
+                        if (event.tags.length < 1){
 
-                if (event.tags.length < 1){
+                            console.log("init", event);
 
-                    console.log("init", event);
+                            emessages.push(event.id);
 
-                    emessages.push(event.id);
+                            create_div(event);
+                        }
 
-                    create_div(event);
+                    }
+                },
+                oneose() {
+                    sortTable();
+                    sub.close()
                 }
-
             }
-        })
-        sub.on('eose', () => {
-            sortTable();
-            sub.unsub()
-        })
+        )
 
     }
 
